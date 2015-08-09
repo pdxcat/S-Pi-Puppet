@@ -3,6 +3,8 @@ class spi(
   $manage_nginx             = true,
   $frontend_dir             = '/var/www/spi',
   $backend_dir              = '/opt/s-pi',
+  $backend_repo_source      = 'https://github.com/Team-B-Capstone/S-Pi-Backend.git',
+  $frontend_repo_source     = 'https://github.com/Team-B-Capstone/S-Pi-Web.git',
   $api_server_name          = undef,
   $web_server_name          = undef,
   $proxy_port               = 9000,
@@ -17,6 +19,25 @@ class spi(
 
   package { 'maven': }
 
+  vcsrepo { $backend_dir:
+    ensure   => present,
+    provider => 'git',
+    source   => $backend_repo_source,
+  }
+
+  vcsrepo { $frontend_dir:
+    ensure   => present,
+    provider => 'git',
+    source   => $frontend_repo_source,
+  }
+
+  exec { 'mvn pacakge':
+    command => '/usr/bin/mvn package',
+    cwd     => $backend_dir,
+    creates => "$backend_dir/target",
+    require => [Package['maven'], Vcsrepo[$backend_dir]],
+  }
+
   $vertx_settings = {
     'vertxHost'        => $vertx_host,
     'vertxPort'        => $vertx_port,
@@ -30,6 +51,7 @@ class spi(
   file { 's-pi-settings.json':
     path    => "${backend_dir}/settings.json",
     content => template('spi/settings.json.erb'),
+    require => Vcsrepo[$backend_dir],
   }
 
   if $nginx {
