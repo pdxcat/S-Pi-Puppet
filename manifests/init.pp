@@ -18,6 +18,10 @@ class spi(
   $big_dawg_url             = undef,
 ) {
 
+  if $operatingsystem != 'Ubuntu' {
+    fail("The S-PI puppet module requires Ubuntu")
+  }
+
   if $manage_java8 {
     apt::ppa { 'ppa:webupd8team/java':
       before => Package['maven'],
