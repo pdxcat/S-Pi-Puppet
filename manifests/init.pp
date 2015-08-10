@@ -1,6 +1,7 @@
 class spi(
   $nginx                    = false,
   $manage_nginx             = true,
+  $manage_java8               = true,
   $frontend_dir             = '/var/www/spi',
   $backend_dir              = '/opt/s-pi',
   $backend_repo_source      = 'https://github.com/Team-B-Capstone/S-Pi-Backend.git',
@@ -17,7 +18,22 @@ class spi(
   $big_dawg_url             = undef,
 ) {
 
+  if $manage_java8 {
+    apt::ppa { 'ppa:webupd8team/java':
+      before => Package['maven'],
+      notify => Exec['apt-get update'],
+    }
+    ~>
+    exec { 'apt-get update':
+      command     => '/usr/bin/apt-get update',
+      refreshonly => true,
+    }
+    ->
+    package { 'oracle-java8-installer':}
+  }
+
   package { 'maven': }
+
 
   vcsrepo { $backend_dir:
     ensure   => present,
