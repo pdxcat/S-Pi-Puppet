@@ -40,7 +40,7 @@ class spi(
     command => '/usr/bin/mvn package',
     cwd     => $backend_dir,
     creates => "$backend_dir/target",
-    require => [Package['maven'], Vcsrepo[$backend_dir]],
+    require => [Package['maven'], Vcsrepo["${backend_dir}/api"]],
   }
 
   $vertx_settings = {
@@ -56,7 +56,7 @@ class spi(
   file { 's-pi-settings.json':
     path    => "${backend_dir}/settings.json",
     content => template('spi/settings.json.erb'),
-    require => Vcsrepo[$backend_dir],
+    require => Vcsrepo["${backend_dir}/api"],
   }
 
   if $nginx {
