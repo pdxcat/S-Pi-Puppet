@@ -1,5 +1,2 @@
-<%
-  require 'json'
-
-puts JSON.generate(@vertx_settings.delete_if { |k,v| v == nil } )
-%>
+<% require 'json' %>
+<%= JSON.pretty_generate(@vertx_settings.delete_if { |k,v| v == :undef }) %>
