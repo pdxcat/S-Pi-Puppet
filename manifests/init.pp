@@ -24,13 +24,13 @@ class spi(
   package { 'maven': }
 
 
-  vcsrepo { $backend_dir:
+  vcsrepo { "${backend_dir}/api":
     ensure   => present,
     provider => 'git',
     source   => $backend_repo_source,
   }
 
-  vcsrepo { $frontend_dir:
+  vcsrepo { "${frontend_dir}/S-Pi-Web":
     ensure   => present,
     provider => 'git',
     source   => $frontend_repo_source,
