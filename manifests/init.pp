@@ -99,7 +99,7 @@ class spi(
 
     nginx::resource::vhost { 'spi-web':
       www_root    => "${frontend_dir}/S-Pi-Web",
-      index       => ['overview.html'],
+      index_files => ['overview.html'],
       server_name => $web_server_name,
       try_files   => ['$uri $uri/ =404'],
     }
