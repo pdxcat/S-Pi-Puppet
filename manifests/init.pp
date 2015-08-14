@@ -63,7 +63,7 @@ class spi(
       server_name => $api_server_name,
       proxy_set_header => [
         'X-Real-IP $remote_addr',
-        'X-Forwarded-For $proxy_add_forwarded_for',
+        'X-Forwarded-For $proxy_add_x_forwarded_for',
         'Upgrade $http_upgrade',
         'Connection "upgrade"',
         'Host $host',
