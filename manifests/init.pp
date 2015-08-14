@@ -8,13 +8,6 @@ class spi(
   $api_server_name          = undef,
   $web_server_name          = undef,
   $proxy_port               = 9000,
-  $vertx_host               = undef,
-  $vertx_port               = undef,
-  $vertx_sstore             = undef,
-  $vertx_sstore_client_host = undef,
-  $vertx_sstore_client_port = undef,
-  $big_dawg                 = undef,
-  $big_dawg_url             = undef,
 ) {
 
   if $operatingsystem != 'Ubuntu' {
@@ -34,22 +27,6 @@ class spi(
     ensure   => present,
     provider => 'git',
     source   => $frontend_repo_source,
-  }
-
-  $vertx_settings = {
-    'vertxHost'        => $vertx_host,
-    'vertxPort'        => $vertx_port,
-    'sstore'           => $vertx_sstore,
-    'sstoreClientHost' => $vertx_sstore_client_host,
-    'sstoreClientPort' => $vertx_sstore_client_port,
-    'bigDawg'          => $big_dawg,
-    'bigDawgUrl'       => $big_dawg_url,
-  }
-
-  file { 's-pi-settings.json':
-    path    => "${backend_dir}/settings.json",
-    content => template('spi/settings.json.erb'),
-    require => Vcsrepo["${backend_dir}/api"],
   }
 
   if $nginx {
