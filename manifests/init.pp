@@ -36,13 +36,6 @@ class spi(
     source   => $frontend_repo_source,
   }
 
-  exec { 'mvn pacakge':
-    command => '/usr/bin/mvn package',
-    cwd     => $backend_dir,
-    creates => "$backend_dir/target",
-    require => [Package['maven'], Vcsrepo["${backend_dir}/api"]],
-  }
-
   $vertx_settings = {
     'vertxHost'        => $vertx_host,
     'vertxPort'        => $vertx_port,
