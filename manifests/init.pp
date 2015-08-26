@@ -14,7 +14,7 @@ class spi(
     fail("The S-PI puppet module requires Ubuntu")
   }
 
-  ensure_packages(['gcc', 'maven', 'ant', 'python', 'open', 'openssh-server'])
+  ensure_packages(['gcc', 'maven', 'ant', 'python', 'openssh-server'])
 
 
   vcsrepo { "${backend_dir}/api":
