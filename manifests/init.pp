@@ -10,7 +10,7 @@ class spi(
   $proxy_port               = 9000,
 ) {
 
-  if $operatingsystem != 'Ubuntu' {
+  if $:;operatingsystem != 'Ubuntu' {
     fail("The S-PI puppet module requires Ubuntu")
   }
 
